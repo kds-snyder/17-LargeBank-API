@@ -18,11 +18,19 @@ namespace LargeBank.API.Models
         public string Zip { get; set; }
 
         //URL for accounts belonging to customer
-        public string AccountsUrl
+        public string AccountsRelativeUrl
         {
             get
             {
-                return "/api/accounts/getForCustomer/" + CustomerId;
+                return "/api/customers/" + CustomerId + "/accounts";
+            }
+        }
+        //URL for transactions belonging to customer
+        public string TransactionsRelativeUrl
+        {
+            get
+            {
+                return "/api/customers/" + CustomerId + "/transactions";
             }
         }
     }

@@ -12,5 +12,14 @@ namespace LargeBank.API.Models
         public DateTime CreatedDate { get; set; }
         public string AccountNumber { get; set; }
         public decimal Balance { get; set; }
+
+        //URL for transactions belonging to account
+        public string TransactionsRelativeUrl
+        {
+            get
+            {
+                return "/api/accounts/" + AccountId + "/transactions";
+            }
+        }
     }
 }
