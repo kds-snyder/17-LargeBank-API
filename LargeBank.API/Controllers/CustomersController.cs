@@ -65,6 +65,72 @@ namespace LargeBank.API.Controllers
             return Ok(modelCustomer);
         }
 
+        // GET: api/customers/5/accounts
+        // Get accounts belonging to customer corresponding to customer ID
+        [Route ("api/customers/{customerId}/accounts")]
+        public IHttpActionResult GetAccountsForCustomer(int customerId)
+        {
+            // Validate request
+            if (!CustomerExists(customerId))
+            {
+                return BadRequest();
+            }
+
+            // Get list of accounts where the customer ID
+            //  matches the input customer ID
+            var dbAccounts = db.Accounts.Where(a => a.CustomerId == customerId);
+
+            if (dbAccounts.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            // Return a list of AccountModel objects, projected from
+            //  the list of Account objects
+            return Ok(dbAccounts.Select(c => new AccountModel
+            {
+                AccountId = c.AccountId,
+                AccountNumber = c.AccountNumber,
+                Balance = c.Balance,
+                CreatedDate = c.CreatedDate,
+                CustomerId = c.CustomerId
+            }));
+        }
+
+        // GET: api/customers/5/transactions
+        // Get transactions belonging to customer corresponding to customer ID
+        [Route("api/customers/{customerId}/transactions")]
+        public IHttpActionResult GetTransactionsForCustomer(int customerId)
+        {
+
+            // Validate request
+            if (!CustomerExists(customerId))
+            {
+                return BadRequest();
+            }
+           
+            // Get list of transactions where the account ID
+            //  matches the account IDs belonging to the customer             
+            var dbTransactions = db.Transactions.Where(t =>
+                 db.Accounts.Any(a => a.CustomerId == customerId &&
+                                       a.AccountId == t.AccountId));          
+
+            if (dbTransactions.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            // Return a list of TransactionModel objects, projected from
+            //  the list of Transaction objects
+            return Ok(dbTransactions.Select(t => new TransactionModel
+            {
+                AccountId = t.AccountId,
+                Amount = t.Amount,
+                TransactionDate = t.TransactionDate,
+                TransactionId = t.TransactionId
+            }));
+        }
+
         // PUT: api/Customers/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutCustomer(int id, CustomerModel customer)

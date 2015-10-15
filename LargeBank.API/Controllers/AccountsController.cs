@@ -32,37 +32,6 @@ namespace LargeBank.API.Controllers
             }); 
         }
 
-        // GET: api/Accounts?customerId
-       // Get accounts for customer corresponding to customerId
-        public IHttpActionResult GetAccounts(int customerId)
-        {
-            // Validate request
-            if(!CustomerExists(customerId))
-            {
-                return BadRequest();
-            }
-
-            // Get list of accounts where the customer ID
-            //  matches the input customer ID
-            var dbAccounts = db.Accounts.Where(a => a.CustomerId == customerId);
-           
-            if (dbAccounts.Count() == 0)
-            {
-                return NotFound();
-            }
-
-            // Return a list of AccountModel objects, projected from
-            //  the list of Account objects
-            return Ok(dbAccounts.Select(c => new AccountModel
-            {
-                AccountId = c.AccountId,
-                AccountNumber = c.AccountNumber,
-                Balance = c.Balance,
-                CreatedDate = c.CreatedDate,
-                CustomerId = c.CustomerId   
-            }));
-        }
-
         // GET: api/Accounts/5
         [ResponseType(typeof(AccountModel))]
         public IHttpActionResult GetAccount(int id)
@@ -88,6 +57,36 @@ namespace LargeBank.API.Controllers
             return Ok(modelAccount);
         }
 
+        // GET: api/accounts/5/transactions
+        // Get transactions belonging to account corresponding to account ID
+        [Route("api/accounts/{accountId}/transactions")]
+        public IHttpActionResult GetTransactions(int accountId)
+        {
+            // Validate request
+            if (!AccountExists(accountId))
+            {
+                return BadRequest();
+            }
+
+            // Get list of accounts where the account ID
+            //  matches the input account ID
+            var dbTransactions = db.Transactions.Where(t => t.AccountId == accountId);
+
+            if (dbTransactions.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            // Return a list of TransactionModel objects, projected from
+            //  the list of Transaction objects
+            return Ok(dbTransactions.Select(t => new TransactionModel
+            {
+                AccountId = t.AccountId,
+                Amount = t.Amount,
+                TransactionDate = t.TransactionDate,
+                TransactionId = t.TransactionId
+            }));
+        }
 
         // PUT: api/Accounts/5
         [ResponseType(typeof(void))]
@@ -213,9 +212,5 @@ namespace LargeBank.API.Controllers
             return db.Accounts.Count(e => e.AccountId == id) > 0;
         }
 
-        private bool CustomerExists(int id)
-        {
-            return db.Customers.Count(e => e.CustomerId == id) > 0;
-        }
     }
 }

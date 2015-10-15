@@ -31,36 +31,6 @@ namespace LargeBank.API.Controllers
             });            
         }
 
-        // GET: api/Transactions?accountId
-        // Get transactions for account corresponding to accountId
-        public IHttpActionResult GetTransactions(int accountId)
-        {
-            // Validate request
-            if (!AccountExists(accountId))
-            {
-                return BadRequest();
-            }
-
-            // Get list of accounts where the account ID
-            //  matches the input account ID
-            var dbTransactions = db.Transactions.Where(t => t.AccountId == accountId);
-
-            if (dbTransactions.Count() == 0)
-            {
-                return NotFound();
-            }
-
-            // Return a list of TransactionModel objects, projected from
-            //  the list of Transaction objects
-            return Ok(dbTransactions.Select(t => new TransactionModel
-            {
-                AccountId = t.AccountId,
-                Amount = t.Amount,
-                TransactionDate = t.TransactionDate,
-                TransactionId = t.TransactionId
-            }));
-        }
-
         // GET: api/Transactions/5
         [ResponseType(typeof(TransactionModel))]
         public IHttpActionResult GetTransaction(int id)
@@ -72,7 +42,6 @@ namespace LargeBank.API.Controllers
             {
                 return NotFound();
             }
-
 
             // Populate new TransactionModel object from Transaction object
             TransactionModel modelTransaction = new TransactionModel
@@ -206,14 +175,5 @@ namespace LargeBank.API.Controllers
             return db.Transactions.Count(e => e.TransactionId == id) > 0;
         }
 
-        private bool AccountExists(int id)
-        {
-            return db.Accounts.Count(e => e.AccountId == id) > 0;
-        }
-
-        private bool CustomerExists(int id)
-        {
-            return db.Customers.Count(e => e.CustomerId == id) > 0;
-        }
     }
 }
