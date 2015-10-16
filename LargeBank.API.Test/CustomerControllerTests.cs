@@ -30,26 +30,26 @@ namespace LargeBank.API.Test
         [TestMethod]
         public void GetCustomerReturnsCustomer()
         {
-            int CustomerIdForTest = 1;
+            int customerIdForTest = 1;
 
             //Arrange: Instantiate CustomersController so its methods can be called
             var customerController = new CustomersController();
 
             //Act: Call the GetCustomer method
-            IHttpActionResult result = customerController.GetCustomer(CustomerIdForTest);
+            IHttpActionResult result = customerController.GetCustomer(customerIdForTest);
 
             //Assert: 
-            // Check that HTTP status code is OK
-            // Check that returned customer ID is correct
+            // Verify that HTTP status code is OK
+            // Verify that returned customer ID is correct
             Assert.IsInstanceOfType(result, typeof(OkNegotiatedContentResult<CustomerModel>));
 
             OkNegotiatedContentResult<CustomerModel> contentResult =
                 (OkNegotiatedContentResult<CustomerModel>)result;
-            Assert.IsTrue(contentResult.Content.CustomerId == CustomerIdForTest);
+            Assert.IsTrue(contentResult.Content.CustomerId == customerIdForTest);
         }
 
         [TestMethod]
-        public void PostcustomerCreatesCustomer()
+        public void PostCustomerCreatesCustomer()
         {
             //Arrange: Instantiate CustomersController so its methods can be called
             var customerController = new CustomersController();
@@ -85,7 +85,7 @@ namespace LargeBank.API.Test
         [TestMethod]
         public void PutCustomerUpdatesCustomer()
         {
-            int CustomerIdForTest = 1;
+            int customerIdForTest = 1;
 
             //Arrange: Instantiate CustomersController so its methods can be called
             var customerController = new CustomersController();
@@ -94,7 +94,7 @@ namespace LargeBank.API.Test
             // Get an existing customer, change it, and
             //  pass it to PutCustomer           
 
-            IHttpActionResult result = customerController.GetCustomer(CustomerIdForTest);
+            IHttpActionResult result = customerController.GetCustomer(customerIdForTest);
             OkNegotiatedContentResult<CustomerModel> contentResult =
                 (OkNegotiatedContentResult<CustomerModel>)result;
             CustomerModel updatedCustomer = (CustomerModel)contentResult.Content;
@@ -113,14 +113,14 @@ namespace LargeBank.API.Test
                                      (updatedCustomer.CustomerId, updatedCustomer);
 
             //Assert: 
-            // Check that HTTP status code is OK
-            // Get the customer and check that it was updated
+            // Verify that HTTP status code is OK
+            // Get the customer and verify that it was updated
 
             var statusCode = (StatusCodeResult)result;
 
             Assert.IsTrue(statusCode.StatusCode == System.Net.HttpStatusCode.NoContent);
 
-            result = customerController.GetCustomer(CustomerIdForTest);
+            result = customerController.GetCustomer(customerIdForTest);
 
             Assert.IsInstanceOfType(result,
                 typeof(OkNegotiatedContentResult<CustomerModel>));
@@ -155,6 +155,7 @@ namespace LargeBank.API.Test
         {
 
             //Arrange:
+            // Instantiate CustomersController so its methods can be called
             // Create a new customer to be deleted, and get its customer ID           
             var customerController = new CustomersController();
  
@@ -178,8 +179,8 @@ namespace LargeBank.API.Test
             result = customerController.DeleteCustomer(customerIdToDelete);
 
             //Assert: 
-            // Check that HTTP result is OK
-            // Check that reading deleted customer returns result not found
+            // Verify that HTTP result is OK
+            // Verify that reading deleted customer returns result not found
             Assert.IsInstanceOfType(result, typeof(OkNegotiatedContentResult<Customer>));
            
             result = customerController.GetCustomer(customerIdToDelete);
