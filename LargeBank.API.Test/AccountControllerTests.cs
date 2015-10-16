@@ -47,26 +47,26 @@ namespace LargeBank.API.Test
         }
 
         [TestMethod]
-        public void GetTransactionsForAccountsReturnsTransactions()
+        public void GetTransactionsForAccountReturnsTransactions()
         {
             int accountIdForTest = 1;
 
             //Arrange: Instantiate AccountsController so its methods can be called
             var accountController = new AccountsController();
 
-            //Act: Call the GetTransactions method
-            IHttpActionResult result = accountController.GetTransactions(accountIdForTest);
+            //Act: Call the GetTransactionsForAccount method
+            IHttpActionResult result = 
+                accountController.GetTransactionsForAccount(accountIdForTest);
 
             //Assert: 
             // Verify that HTTP status code is OK
             // Verify that an array was returned with at least one element
-            Assert.IsInstanceOfType(result, 
-                typeof(OkNegotiatedContentResult<IEnumerable<TransactionModel>>));
+            Assert.IsInstanceOfType(result,
+                typeof(OkNegotiatedContentResult<IQueryable<TransactionModel>>));
 
-            OkNegotiatedContentResult<IEnumerable<TransactionModel>> contentResult =
-                (OkNegotiatedContentResult<IEnumerable<TransactionModel>>)result;
+            OkNegotiatedContentResult<IQueryable<TransactionModel>> contentResult =
+                (OkNegotiatedContentResult<IQueryable<TransactionModel>>)result;
             Assert.IsTrue(contentResult.Content.Count() > 0);
-
         }
 
         [TestMethod]
@@ -106,6 +106,8 @@ namespace LargeBank.API.Test
         public void PutAccountUpdatesAccount()
         {
             int accountIdForTest = 1;
+            string accountNumberForTest = "XXXY1";
+            decimal balanceForTest = 872345.34M;
 
             //Arrange: Instantiate AccountsController so its methods can be called
             var accountController = new AccountsController();
@@ -122,8 +124,8 @@ namespace LargeBank.API.Test
             string accountNumberBeforeUpdate = updatedAccount.AccountNumber;
             decimal balanceBeforeUpdate = updatedAccount.Balance;
 
-            updatedAccount.AccountNumber = "XXXY1";
-            updatedAccount.Balance = 872345.34M;
+            updatedAccount.AccountNumber = accountNumberForTest;
+            updatedAccount.Balance = balanceForTest;
 
             result = accountController.PutAccount
                                      (updatedAccount.AccountId, updatedAccount);
@@ -145,8 +147,8 @@ namespace LargeBank.API.Test
                 (OkNegotiatedContentResult<AccountModel>)result;
             updatedAccount = (AccountModel)readContentResult.Content;
 
-            Assert.IsTrue(updatedAccount.AccountNumber == "XXXY1");
-            Assert.IsTrue(updatedAccount.Balance == 872345098.34M);            
+            Assert.IsTrue(updatedAccount.AccountNumber == accountNumberForTest);
+            Assert.IsTrue(updatedAccount.Balance == balanceForTest);            
 
             updatedAccount.AccountNumber = accountNumberBeforeUpdate;
             updatedAccount.Balance = balanceBeforeUpdate;

@@ -60,7 +60,7 @@ namespace LargeBank.API.Controllers
         // GET: api/accounts/5/transactions
         // Get transactions belonging to account corresponding to account ID
         [Route("api/accounts/{accountId}/transactions")]
-        public IHttpActionResult GetTransactions(int accountId)
+        public IHttpActionResult GetTransactionsForAccount(int accountId)
         {
             // Validate request
             if (!AccountExists(accountId))

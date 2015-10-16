@@ -49,37 +49,48 @@ namespace LargeBank.API.Test
         }
 
         [TestMethod]
-        public void PostCustomerCreatesCustomer()
+        public void GetAccountsForCustomerReturnsAccounts()
         {
-            //Arrange: Instantiate CustomersController so its methods can be called
+            int customerIdForTest = 1;
+
+            // Arrange: Instantiate CustomersController so its methods can be called
             var customerController = new CustomersController();
 
-            //Act: 
-            // Create a CustomerModel object populated with test data,
-            //  and call PostCustomer
-            var newCustomer = new CustomerModel
-            {
-                FirstName = "Testy",
-                LastName = "McTesterson",
-                Address1 = "Land of QA",
-                Address2 = "34 Broome St",
-                City = "San Francisco",
-                State = "CA",
-                Zip = "92456"
-            };
-            IHttpActionResult result = customerController.PostCustomer(newCustomer);
+            //Act: Call the GetAccountsForCustomer method
+            IHttpActionResult result = 
+                customerController.GetAccountsForCustomer(customerIdForTest);
 
-            //Assert:
-            // Verify that the HTTP result is CreatedAtRouteNegotiatedContentResult
-            // Verify that the HTTP result body contains a nonzero customer ID
-            Assert.IsInstanceOfType
-                (result, typeof(CreatedAtRouteNegotiatedContentResult<CustomerModel>));
-            CreatedAtRouteNegotiatedContentResult<CustomerModel> contentResult =
-                (CreatedAtRouteNegotiatedContentResult<CustomerModel>)result;
-            Assert.IsTrue(contentResult.Content.CustomerId != 0);
+            //Assert: 
+            // Verify that HTTP status code is OK
+            // Verify that an array was returned with at least one element
+            Assert.IsInstanceOfType(result,
+                typeof(OkNegotiatedContentResult<IQueryable<AccountModel>>));
 
-            // Delete the test customer 
-            result = customerController.DeleteCustomer(contentResult.Content.CustomerId);
+            OkNegotiatedContentResult<IQueryable<AccountModel>> contentResult =
+                (OkNegotiatedContentResult<IQueryable<AccountModel>>)result;
+            Assert.IsTrue(contentResult.Content.Count() > 0);
+        }
+
+        [TestMethod]
+        public void GetTransactionsForCustomerReturnsTransactions()
+        {
+            int customerIdForTest = 1;
+
+            // Arrange: Instantiate CustomersController so its methods can be called
+            var customerController = new CustomersController();
+
+            //Act: Call the GetTransactionsForCustomer method
+            IHttpActionResult result = customerController.GetTransactionsForCustomer(customerIdForTest);
+
+            //Assert: 
+            // Verify that HTTP status code is OK
+            // Verify that an array was returned with at least one element
+            Assert.IsInstanceOfType(result,
+                typeof(OkNegotiatedContentResult<IQueryable<TransactionModel>>));
+
+            OkNegotiatedContentResult<IQueryable<TransactionModel>> contentResult =
+                (OkNegotiatedContentResult<IQueryable<TransactionModel>>)result;
+            Assert.IsTrue(contentResult.Content.Count() > 0);
         }
 
         [TestMethod]
@@ -148,6 +159,40 @@ namespace LargeBank.API.Test
             
             result = customerController.PutCustomer
                                  (updatedCustomer.CustomerId, updatedCustomer);
+        }
+
+        [TestMethod]
+        public void PostCustomerCreatesCustomer()
+        {
+            //Arrange: Instantiate CustomersController so its methods can be called
+            var customerController = new CustomersController();
+
+            //Act: 
+            // Create a CustomerModel object populated with test data,
+            //  and call PostCustomer
+            var newCustomer = new CustomerModel
+            {
+                FirstName = "Testy",
+                LastName = "McTesterson",
+                Address1 = "Land of QA",
+                Address2 = "34 Broome St",
+                City = "San Francisco",
+                State = "CA",
+                Zip = "92456"
+            };
+            IHttpActionResult result = customerController.PostCustomer(newCustomer);
+
+            //Assert:
+            // Verify that the HTTP result is CreatedAtRouteNegotiatedContentResult
+            // Verify that the HTTP result body contains a nonzero customer ID
+            Assert.IsInstanceOfType
+                (result, typeof(CreatedAtRouteNegotiatedContentResult<CustomerModel>));
+            CreatedAtRouteNegotiatedContentResult<CustomerModel> contentResult =
+                (CreatedAtRouteNegotiatedContentResult<CustomerModel>)result;
+            Assert.IsTrue(contentResult.Content.CustomerId != 0);
+
+            // Delete the test customer 
+            result = customerController.DeleteCustomer(contentResult.Content.CustomerId);
         }
 
         [TestMethod]

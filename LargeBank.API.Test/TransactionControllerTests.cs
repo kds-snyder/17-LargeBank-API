@@ -34,7 +34,7 @@ namespace LargeBank.API.Test
             //Arrange: Instantiate TransactionsController so its methods can be called
             var transactionController = new TransactionsController();
 
-            //Act: Call the GetCustomer method
+            //Act: Call the GetTransaction method
             IHttpActionResult result = transactionController.GetTransaction(transactionIdForTest);
 
             //Assert: 
