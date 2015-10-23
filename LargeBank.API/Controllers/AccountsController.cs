@@ -181,11 +181,19 @@ namespace LargeBank.API.Controllers
             {
                 return NotFound();
             }
-
-            db.Accounts.Remove(account);
-
+           
             try
             {
+                // Remove the transactions corresponding to the account
+                var transactions = db.Transactions.Where(t => t.AccountId == account.AccountId);
+                if (transactions != null)
+                {
+                    db.Transactions.RemoveRange(transactions);
+                    db.SaveChanges();
+                }               
+
+                // Remove the account
+                db.Accounts.Remove(account);
                 db.SaveChanges();
             }
             catch (Exception)

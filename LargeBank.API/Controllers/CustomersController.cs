@@ -224,10 +224,23 @@ namespace LargeBank.API.Controllers
                 return NotFound();
             }
 
-            db.Customers.Remove(customer);
-
             try
             {
+                // Remove the transactions corresponding to the customer
+                var transactions = db.Transactions.Where(t => t.Account.CustomerId == customer.CustomerId);
+                if (transactions != null)
+                {
+                    db.Transactions.RemoveRange(transactions);
+                    db.SaveChanges();
+                }
+
+                // Remove the accounts corresponding to the customer
+                var accounts = db.Accounts.Where(a => a.CustomerId == customer.CustomerId);
+                db.Accounts.RemoveRange(accounts);
+                db.SaveChanges();
+
+                // Remove the customer
+                db.Customers.Remove(customer);
                 db.SaveChanges();
             }
             catch (Exception)

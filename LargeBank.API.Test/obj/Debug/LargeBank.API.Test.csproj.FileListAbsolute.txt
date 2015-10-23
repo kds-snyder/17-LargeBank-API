@@ -30,3 +30,6 @@ C:\dev\17-LargeBank-API\LargeBank.API.Test\bin\Debug\System.Web.Http.WebHost.xml
 C:\dev\17-LargeBank-API\LargeBank.API.Test\obj\Debug\LargeBank.API.Test.csprojResolveAssemblyReference.cache
 C:\dev\17-LargeBank-API\LargeBank.API.Test\obj\Debug\LargeBank.API.Test.dll
 C:\dev\17-LargeBank-API\LargeBank.API.Test\obj\Debug\LargeBank.API.Test.pdb
+C:\dev\17-LargeBank-API\LargeBank.API.Test\bin\Debug\System.Web.Http.Cors.dll
+C:\dev\17-LargeBank-API\LargeBank.API.Test\bin\Debug\System.Web.Cors.dll
+C:\dev\17-LargeBank-API\LargeBank.API.Test\bin\Debug\System.Web.Http.Cors.xml
