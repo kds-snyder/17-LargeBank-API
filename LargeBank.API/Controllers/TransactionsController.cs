@@ -95,7 +95,7 @@ namespace LargeBank.API.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw new Exception("Unable to update the transaction in the database.");
                 }
             }
 
@@ -127,7 +127,7 @@ namespace LargeBank.API.Controllers
             catch (Exception)
             {
 
-                throw;
+                throw new Exception("Unable to add the transaction to the database.");
             }
 
             // Update the TransactionModel object with the new transaction ID
@@ -155,7 +155,7 @@ namespace LargeBank.API.Controllers
             }
             catch (Exception)
             {
-                throw;
+                throw new Exception("Unable to delete the transaction from the database.");
             }
             
             return Ok(transaction);

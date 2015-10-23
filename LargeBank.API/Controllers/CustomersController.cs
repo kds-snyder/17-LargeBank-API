@@ -171,7 +171,7 @@ namespace LargeBank.API.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw new Exception("Unable to update the customer in the database.");
                 }
             }
             return StatusCode(HttpStatusCode.NoContent);
@@ -204,7 +204,7 @@ namespace LargeBank.API.Controllers
             catch (Exception)
             {
 
-                throw;
+                throw new Exception("Unable to add the customer to the database.");
             }
             
             // Update the CustomerModel object with the new customer ID
@@ -246,7 +246,7 @@ namespace LargeBank.API.Controllers
             catch (Exception)
             {
 
-                throw;
+                throw new Exception("Unable to delete the customer from the database."); ;
             }
             
             return Ok(customer);

@@ -128,7 +128,7 @@ namespace LargeBank.API.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw new Exception("Unable to update the account in the database.");
                 }
             }
 
@@ -162,7 +162,7 @@ namespace LargeBank.API.Controllers
             catch (Exception)
             {
 
-                throw;
+                throw new Exception("Unable to add the account to the database.");
             }            
 
             // Update the AccountModel object with the new account ID
@@ -199,7 +199,7 @@ namespace LargeBank.API.Controllers
             catch (Exception)
             {
 
-                throw;
+                throw new Exception("Unable to delete the account from the database.");
             }
             
 
