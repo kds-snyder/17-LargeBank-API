@@ -151,11 +151,11 @@ namespace LargeBank.API.Controllers
                 return BadRequest();
             }
 
-            //  Get the customer record corresponding to the customer ID, then
+            //  Get the customer record corresponding to the customer ID, 
             //   update its properties to the values in the input CustomerModel object,
-            //   and then set an indicator that the record has been modified
+            //    and then set an indicator that the record has been modified
             var dbCustomer = db.Customers.Find(id);
-            dbCustomer.Update(customer);
+            dbCustomer.Update(customer);           
             db.Entry(dbCustomer).State = EntityState.Modified;          
 
             // Perform update by saving changes to DB
@@ -246,7 +246,7 @@ namespace LargeBank.API.Controllers
             catch (Exception)
             {
 
-                throw new Exception("Unable to delete the customer from the database."); ;
+                throw new Exception("Unable to delete the customer from the database.");
             }
             
             return Ok(customer);

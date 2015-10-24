@@ -12,16 +12,15 @@ namespace LargeBank.API
         {
             // Web API configuration and services
             // Enable cross origin requests to API
-            /*var cors = new EnableCorsAttribute(
+            var cors = new EnableCorsAttribute(
                 origins: "*",
                 headers: "*",
                 methods: "*"
             );
-            config.EnableCors(cors);
-            */
+            config.EnableCors(cors);          
 
-            var cors = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(cors);
+            //var cors = new EnableCorsAttribute("*", "*", "*");
+            //config.EnableCors(cors);
 
             // Web API routes
             config.MapHttpAttributeRoutes();
