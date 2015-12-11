@@ -109,8 +109,8 @@ namespace LargeBank.API.Controllers
             }
 
             // Get the account record corresponding to the account ID, then
-            //   update its properties to the values in the input AccountModel object,,
-            //   and then set an indicator that the record has been modified
+            //   update its properties to the values in the input AccountModel object,
+            //   and then set indicator that the record has been modified
             var dbAccount = db.Accounts.Find(id);
             dbAccount.Update(account);
             db.Entry(dbAccount).State = EntityState.Modified;
